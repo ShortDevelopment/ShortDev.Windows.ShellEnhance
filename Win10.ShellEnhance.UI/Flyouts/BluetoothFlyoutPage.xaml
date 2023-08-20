@@ -1,0 +1,70 @@
+﻿<Page
+    x:Class="ShortDev.ShellEnhance.UI.Flyouts.BluetoothFlyoutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ShortDev.ShellEnhance.UI"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    d:Width="300" d:Height="500"
+    mc:Ignorable="d"
+    RequestedTheme="Dark">
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
+
+    <Border CornerRadius="10"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            BorderThickness="1"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid Padding="10"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,0,0,1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Bluetooth" Grid.Column="1" VerticalAlignment="Center" FontSize="16" Margin="5,0,0,0" />
+                <ToggleSwitch Grid.Column="2" OnContent="" OffContent="" MinWidth="0" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <controls:ProgressBar IsIndeterminate="True" VerticalAlignment="Top" />
+                <ListView x:Name="DevicesListView" SelectionMode="Single" SelectionChanged="DevicesListView_SelectionChanged">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="namespace:BluetoothDeviceInfo" xmlns:namespace="using:ShortDev.ShellEnhance.UI.Flyouts">
+                            <StackPanel Padding="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{x:Bind Thumbnail}" />
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{x:Bind Name}" />
+                                    </StackPanel>
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" Visibility="{x:Bind CanConnect, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <Button Style="{StaticResource AccentButtonStyle}" Content="Connect" x:Name="ConnectDeviceButton" Click="ConnectDeviceButton_Click" />
+                                    <Button Content="Disonnect" x:Name="DisconnectDeviceButton" Click="DisconnectDeviceButton_Click" />
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            <Grid Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" Padding="10" Grid.Row="2"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
+                <HyperlinkButton Content="More Bluetooth Settings" x:Name="MoreSettingsButton" Click="MoreSettingsButton_Click" />
+            </Grid>
+        </Grid>
+    </Border>
+</Page>

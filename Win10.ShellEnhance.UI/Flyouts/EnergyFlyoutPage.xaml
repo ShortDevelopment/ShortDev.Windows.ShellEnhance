@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="ShortDev.ShellEnhance.UI.Flyouts.EnergyFlyoutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ShortDev.ShellEnhance.UI.Flyouts"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    d:Width="300" d:Height="500"
+    mc:Ignorable="d"
+    RequestedTheme="Dark">
+
+    <Border CornerRadius="10"
+            Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}"
+            BorderThickness="1"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid Padding="10"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,0,0,1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Energy Settings" Grid.Column="1" VerticalAlignment="Center" FontSize="16" Margin="5,0,0,0" />
+            </Grid>
+            <StackPanel Grid.Row="1">
+                <ListView x:Name="SelectPowerPlanListView" ItemClick="SelectPowerPlanListView_ItemClick" IsItemClickEnabled="True" />
+            </StackPanel>
+            <Grid Background="{ThemeResource AcrylicInAppFillColorBaseBrush}" Padding="10" Grid.Row="2"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
+                <HyperlinkButton Content="More Energy Settings" />
+            </Grid>
+        </Grid>
+    </Border>
+</Page>
+
