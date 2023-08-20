@@ -20,8 +20,28 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <StackPanel Padding="15">
-                <TextBlock Text="08:00:11" FontWeight="SemiBold" FontSize="25" />
-                <TextBlock Text="{x:Bind CurrentDateFormatted, FallbackValue='10. Oktober 2023'}" FontSize="12" Foreground="{ThemeResource AccentTextFillColorSecondaryBrush}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind CurrentTimeFormatted, Mode=OneWay, FallbackValue='08:00:11'}" FontWeight="SemiBold" FontSize="25" />
+                    <Button Grid.Column="1" FontSize="12" x:Name="LaunchClockButton" Click="LaunchClockButton_Click">
+                        <Path Stretch="Uniform" Height="12" Fill="{ThemeResource TextFillColorSecondaryBrush}"
+                              Data="M12 2C17.523 2 22 6.478 22 12C22 17.522 17.523 22 12 22C6.477 22 2 17.522 2 12C2 6.478 6.477 2 12 2ZM12 3.667C7.405 3.667 3.667 7.405 3.667 12C3.667 16.595 7.405 20.333 12 20.333C16.595 20.333 20.333 16.595 20.333 12C20.333 7.405 16.595 3.667 12 3.667ZM11.25 6C11.6295 6 11.9435 6.28233 11.9931 6.64827L12 6.75V12H15.25C15.664 12 16 12.336 16 12.75C16 13.1295 15.7177 13.4435 15.3517 13.4931L15.25 13.5H11.25C10.8705 13.5 10.5565 13.2177 10.5069 12.8517L10.5 12.75V6.75C10.5 6.336 10.836 6 11.25 6Z" />
+                    </Button>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind CurrentDateFormatted, FallbackValue='10. Oktober 2023'}" FontSize="12" Foreground="{ThemeResource AccentTextFillColorSecondaryBrush}" />
+                    <Button Grid.Column="1" FontSize="12" x:Name="LaunchCalendarButton" Click="LaunchCalendarButton_Click">
+                        <Path Stretch="Uniform" Height="12" Fill="{ThemeResource TextFillColorSecondaryBrush}"
+                            Data="M17.75 3C19.5449 3 21 4.45507 21 6.25V17.75C21 19.5449 19.5449 21 17.75 21H6.25C4.45507 21 3 19.5449 3 17.75V6.25C3 4.45507 4.45507 3 6.25 3H17.75ZM19.5 8.5H4.5V17.75C4.5 18.7165 5.2835 19.5 6.25 19.5H17.75C18.7165 19.5 19.5 18.7165 19.5 17.75V8.5ZM7.75 14.5C8.44036 14.5 9 15.0596 9 15.75C9 16.4404 8.44036 17 7.75 17C7.05964 17 6.5 16.4404 6.5 15.75C6.5 15.0596 7.05964 14.5 7.75 14.5ZM12 14.5C12.6904 14.5 13.25 15.0596 13.25 15.75C13.25 16.4404 12.6904 17 12 17C11.3096 17 10.75 16.4404 10.75 15.75C10.75 15.0596 11.3096 14.5 12 14.5ZM7.75 10.5C8.44036 10.5 9 11.0596 9 11.75C9 12.4404 8.44036 13 7.75 13C7.05964 13 6.5 12.4404 6.5 11.75C6.5 11.0596 7.05964 10.5 7.75 10.5ZM12 10.5C12.6904 10.5 13.25 11.0596 13.25 11.75C13.25 12.4404 12.6904 13 12 13C11.3096 13 10.75 12.4404 10.75 11.75C10.75 11.0596 11.3096 10.5 12 10.5ZM16.25 10.5C16.9404 10.5 17.5 11.0596 17.5 11.75C17.5 12.4404 16.9404 13 16.25 13C15.5596 13 15 12.4404 15 11.75C15 11.0596 15.5596 10.5 16.25 10.5ZM17.75 4.5H6.25C5.2835 4.5 4.5 5.2835 4.5 6.25V7H19.5V6.25C19.5 5.2835 18.7165 4.5 17.75 4.5Z" />
+                    </Button>
+                </Grid>
             </StackPanel>
 
             <Grid BorderBrush="{ThemeResource DividerStrokeColorDefault}" BorderThickness="0,1,0,0" />
@@ -38,20 +58,33 @@
 
             <Grid BorderBrush="{ThemeResource DividerStrokeColorDefault}" BorderThickness="0,1,0,0" />
 
-            <StackPanel Padding="15">
-                <TextBlock Text="{x:Bind SelectedDate, Mode=OneWay, FallbackValue='10. Oktober'}" FontWeight="SemiBold" FontSize="15" />
-            </StackPanel>
+            <Grid Padding="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Bind SelectedDateFormatted, Mode=OneWay, FallbackValue='10. Oktober'}" FontWeight="SemiBold" FontSize="15" VerticalAlignment="Center" />
+                <Button Grid.Column="1" FontSize="12" VerticalAlignment="Center">
+                    <Path Stretch="Uniform" Height="12" Fill="{ThemeResource TextFillColorSecondaryBrush}"
+                        Data="M17.75 3C19.5449 3 21 4.45507 21 6.25V17.75C21 19.5449 19.5449 21 17.75 21H6.25C4.45507 21 3 19.5449 3 17.75V6.25C3 4.45507 4.45507 3 6.25 3H17.75ZM19.5 8.5H4.5V17.75C4.5 18.7165 5.2835 19.5 6.25 19.5H17.75C18.7165 19.5 19.5 18.7165 19.5 17.75V8.5ZM7.75 14.5C8.44036 14.5 9 15.0596 9 15.75C9 16.4404 8.44036 17 7.75 17C7.05964 17 6.5 16.4404 6.5 15.75C6.5 15.0596 7.05964 14.5 7.75 14.5ZM12 14.5C12.6904 14.5 13.25 15.0596 13.25 15.75C13.25 16.4404 12.6904 17 12 17C11.3096 17 10.75 16.4404 10.75 15.75C10.75 15.0596 11.3096 14.5 12 14.5ZM7.75 10.5C8.44036 10.5 9 11.0596 9 11.75C9 12.4404 8.44036 13 7.75 13C7.05964 13 6.5 12.4404 6.5 11.75C6.5 11.0596 7.05964 10.5 7.75 10.5ZM12 10.5C12.6904 10.5 13.25 11.0596 13.25 11.75C13.25 12.4404 12.6904 13 12 13C11.3096 13 10.75 12.4404 10.75 11.75C10.75 11.0596 11.3096 10.5 12 10.5ZM16.25 10.5C16.9404 10.5 17.5 11.0596 17.5 11.75C17.5 12.4404 16.9404 13 16.25 13C15.5596 13 15 12.4404 15 11.75C15 11.0596 15.5596 10.5 16.25 10.5ZM17.75 4.5H6.25C5.2835 4.5 4.5 5.2835 4.5 6.25V7H19.5V6.25C19.5 5.2835 18.7165 4.5 17.75 4.5Z" />
+                </Button>
+            </Grid>
         </StackPanel>
         <ListView Grid.Row="1" ItemsSource="{x:Bind Appointments}"
                   SelectionMode="None">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="appointments:Appointment">
+                <DataTemplate x:DataType="local:AppointmentInfo">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="All Day" Width="60" VerticalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                        <TextBlock Text="{x:Bind StartTime}" Width="60" VerticalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
-                        <StackPanel>
-                            <TextBlock Text="{x:Bind Subject}" />
-                            <TextBlock Text="{x:Bind Location}" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                        <StackPanel.Resources>
+                            <SolidColorBrush x:Name="CalendarColorBrush" Color="{x:Bind Calendar.DisplayColor}" />
+                        </StackPanel.Resources>
+                        <Grid Background="{StaticResource CalendarColorBrush}" Width="5" Height="25"
+                              Margin="0,0,7,0" VerticalAlignment="Center"
+                              CornerRadius="2.5" />
+                        <TextBlock Text="{x:Bind StartTimeFormatted}" Width="60" VerticalAlignment="Center" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{x:Bind Appointment.Subject}" />
+                            <TextBlock Text="{x:Bind Appointment.Location}" Foreground="{ThemeResource TextFillColorTertiaryBrush}" Visibility="{x:Bind LocationVisibility}" />
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>

@@ -1,10 +1,12 @@
 ﻿using ShortDev.ShellEnhance.UI.Flyouts;
 using ShortDev.Uwp.FullTrust.Xaml;
 using System;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using WinUI.Interop.CoreWindow;
 
 namespace ShortDev.ShellEnhance.UI;
 
@@ -29,8 +31,11 @@ public static class Program
         var subclass = Window.GetSubclass();
         subclass.Win32Window.ShowInTaskBar = false;
 
+        var hwnd = Window.GetHwnd();
+        PostMessage(hwnd, 0x270, 0, 1);
+
         WindowPrivate = (IWindowPrivate)(object)Window;
-        WindowPrivate.MoveWindow(0, 0, 350, 600);
+        WindowPrivate.MoveWindow(0, 0, 350, 650);
         WindowPrivate.Hide();
 
         Frame = new();
@@ -42,6 +47,9 @@ public static class Program
 
         Window.Dispatcher.ProcessEvents(CoreProcessEventsOption.ProcessUntilQuit);
     }
+
+    [DllImport("User32.Dll")]
+    public static extern bool PostMessage(IntPtr hWnd, uint msg, int wParam, int lParam);
 
     static void RegisterFlyout<T>() where T : Page, IShellEnhanceFlyout, new()
     {
