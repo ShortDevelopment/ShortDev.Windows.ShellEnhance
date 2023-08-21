@@ -3,16 +3,17 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using Windows.ApplicationModel.Appointments;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Timer = System.Timers.Timer;
 
-namespace ShortDev.ShellEnhance.UI.Flyouts;
+namespace ShortDev.Windows.ShellEnhance.UI.Flyouts;
 
 public sealed partial class CalendarFlyoutPage : Page, IShellEnhanceFlyout, INotifyPropertyChanged
 {
@@ -25,10 +26,10 @@ public sealed partial class CalendarFlyoutPage : Page, IShellEnhanceFlyout, INot
     public string IconAssetId
         => "calendar";
 
-    public Guid IconId
-        => new("DB805D60-B947-4CEE-B62E-383DA470570F");
+    public ushort IconId
+        => 0x2023;
 
-    private async void CalendarFlyoutPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+    private async void CalendarFlyoutPage_Loaded(object sender, RoutedEventArgs e)
     {
         await OnSelectedDateChangedAsync();
     }
@@ -36,7 +37,7 @@ public sealed partial class CalendarFlyoutPage : Page, IShellEnhanceFlyout, INot
     #region Clock Timer
     readonly Timer timer = new()
     {
-        Interval = 500
+        Interval = 10
     };
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
@@ -50,10 +51,15 @@ public sealed partial class CalendarFlyoutPage : Page, IShellEnhanceFlyout, INot
         timer.Enabled = false;
     }
 
+    int _lastSecond = -1;
     void OnTimerTick(object sender, object e)
     {
+        var currentSecond = DateTime.Now.Second;
+        if (Interlocked.Exchange(ref _lastSecond, currentSecond) == currentSecond)
+            return;
+
         _ = Dispatcher.RunAsync(
-                Windows.UI.Core.CoreDispatcherPriority.High,
+                CoreDispatcherPriority.High,
                 () => PropertyChanged?.Invoke(this, new(nameof(CurrentTimeFormatted)))
             );
     }
@@ -68,9 +74,9 @@ public sealed partial class CalendarFlyoutPage : Page, IShellEnhanceFlyout, INot
     private async void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
     {
         if (sender.SelectedDates.Count == 0)
-            SelectedDate = DateTimeOffset.Now;
+            SelectedDate = DateTimeOffset.Now.Date;
         else
-            SelectedDate = sender.SelectedDates[0];
+            SelectedDate = sender.SelectedDates[0].Date;
 
         await OnSelectedDateChangedAsync();
     }

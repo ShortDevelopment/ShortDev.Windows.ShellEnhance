@@ -8,8 +8,9 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml;
 
-namespace ShortDev.ShellEnhance.UI.Flyouts;
+namespace ShortDev.Windows.ShellEnhance.UI.Flyouts;
 
 public sealed partial class BluetoothFlyoutPage : Page, IShellEnhanceFlyout
 {
@@ -21,7 +22,7 @@ public sealed partial class BluetoothFlyoutPage : Page, IShellEnhanceFlyout
     }
 
     ObservableCollection<BluetoothDeviceInfo> bluetoothDeviceInfos = new();
-    private async void BluetoothFlyoutPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+    private async void BluetoothFlyoutPage_Loaded(object sender, RoutedEventArgs e)
     {
         string selector = BluetoothDevice.GetDeviceSelectorFromPairingState(true);
         DeviceWatcher watcher = DeviceInformation.CreateWatcher(selector);
@@ -62,29 +63,29 @@ public sealed partial class BluetoothFlyoutPage : Page, IShellEnhanceFlyout
     public string IconAssetId
         => "bluetooth";
 
-    public Guid IconId
-        => new("CDDDFED1-DB5B-4FEC-8E4E-231B8232CA47");
+    public ushort IconId
+        => 0x2021;
 
     private void DevicesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var device = ((BluetoothDeviceInfo)DevicesListView.SelectedItem).DeviceInformation;
     }
 
-    private async void ConnectDeviceButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+    private async void ConnectDeviceButton_Click(object sender, RoutedEventArgs e)
     {
         var source = (FrameworkElement)e.OriginalSource;
         var device = ((BluetoothDeviceInfo)source.DataContext).DeviceInformation;
         await DeviceFlow.ConnectAsync(device.Id);
     }
 
-    private async void DisconnectDeviceButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+    private async void DisconnectDeviceButton_Click(object sender, RoutedEventArgs e)
     {
         var source = (FrameworkElement)e.OriginalSource;
         var device = ((BluetoothDeviceInfo)source.DataContext).DeviceInformation;
         await DeviceFlow.DisconnectAsync(device.Id);
     }
 
-    private void MoreSettingsButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+    private void MoreSettingsButton_Click(object sender, RoutedEventArgs e)
     {
         _ = Launcher.LaunchUriAsync(new Uri("ms-settings:bluetooth"));
     }

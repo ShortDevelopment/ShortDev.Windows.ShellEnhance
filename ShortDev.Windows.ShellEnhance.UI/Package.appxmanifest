@@ -14,8 +14,8 @@
   <mp:PhoneIdentity PhoneProductId="d97fa37f-b206-489e-8da2-99c16bdc3c0c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>Win10.ShellEnhance.UI</DisplayName>
-    <PublisherDisplayName>lukas</PublisherDisplayName>
+    <DisplayName>ShortDev ShellEnhance</DisplayName>
+    <PublisherDisplayName>ShortDev</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -30,12 +30,12 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="Win10.ShellEnhance.UI.App">
+      EntryPoint="ShortDev.Windows.ShellEnhance.UI.App">
       <uap:VisualElements
-        DisplayName="Win10.ShellEnhance.UI"
+        DisplayName="ShortDev ShellEnhance"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Win10.ShellEnhance.UI"
+        Description="ShortDev ShellEnhance"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

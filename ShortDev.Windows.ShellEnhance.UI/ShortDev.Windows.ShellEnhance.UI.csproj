@@ -20,6 +20,7 @@
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <EnableTypeInfoReflection>false</EnableTypeInfoReflection>
     <LangVersion>latest</LangVersion>
+	  <PolySharpExcludeGeneratedTypes>System.Diagnostics.CodeAnalysis.UnscopedRefAttribute</PolySharpExcludeGeneratedTypes>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -89,7 +90,9 @@
       <DependentUpon>EnergyFlyoutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Flyouts\IShellEnhanceFlyout.cs" />
+    <Compile Include="GlobalImports.cs" />
     <Compile Include="NotificationIcon.cs" />
+    <Compile Include="PowerApi.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -106,6 +109,7 @@
     <Content Include="DeviceFlow.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="NativeMethods.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -142,6 +146,11 @@
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.8.2-prerelease.220830001</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.CsWin32">
+      <Version>0.3.18-beta</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="PolySharp">
       <Version>1.13.2</Version>

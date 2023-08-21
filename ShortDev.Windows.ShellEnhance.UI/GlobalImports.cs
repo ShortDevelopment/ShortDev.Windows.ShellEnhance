@@ -1,0 +1,1 @@
+global using static Windows.Win32.PInvoke;

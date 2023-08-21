@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace ShortDev.ShellEnhance.UI.Flyouts
+namespace ShortDev.Windows.ShellEnhance.UI.Flyouts
 {
     internal interface IShellEnhanceFlyout
     {
         string IconAssetId { get; }
-        Guid IconId { get; }
+        ushort IconId { get; }
     }
 }

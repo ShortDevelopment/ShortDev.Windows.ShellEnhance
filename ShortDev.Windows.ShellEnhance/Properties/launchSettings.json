@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Win10.ShellEnhance": {
+    "ShellEnhance": {
       "commandName": "Project",
       "nativeDebugging": true
     }

@@ -1,14 +1,15 @@
-﻿using ShortDev.ShellEnhance.UI.Flyouts;
+﻿using ShortDev.Windows.ShellEnhance.UI.Flyouts;
 using ShortDev.Uwp.FullTrust.Xaml;
 using System;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.Win32.Foundation;
 using WinUI.Interop.CoreWindow;
+using Windows.UI.Xaml.Navigation;
 
-namespace ShortDev.ShellEnhance.UI;
+namespace ShortDev.Windows.ShellEnhance.UI;
 
 public static class Program
 {
@@ -32,7 +33,7 @@ public static class Program
         subclass.Win32Window.ShowInTaskBar = false;
 
         var hwnd = Window.GetHwnd();
-        PostMessage(hwnd, 0x270, 0, 1);
+        PostMessage((HWND)hwnd, 0x270, 0, 1);
 
         WindowPrivate = (IWindowPrivate)(object)Window;
         WindowPrivate.MoveWindow(0, 0, 350, 650);
@@ -44,12 +45,10 @@ public static class Program
         Window.Content = Frame;
 
         RegisterFlyout<CalendarFlyoutPage>();
+        RegisterFlyout<EnergyFlyoutPage>();
 
         Window.Dispatcher.ProcessEvents(CoreProcessEventsOption.ProcessUntilQuit);
     }
-
-    [DllImport("User32.Dll")]
-    public static extern bool PostMessage(IntPtr hWnd, uint msg, int wParam, int lParam);
 
     static void RegisterFlyout<T>() where T : Page, IShellEnhanceFlyout, new()
     {
@@ -63,12 +62,13 @@ public static class Program
         if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
             return;
 
-        Frame.GoBack();
+        if (Frame.CanGoBack)
+            Frame.GoBack();
     }
 
-    private static void Frame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+    private static void Frame_Navigated(object sender, NavigationEventArgs e)
     {
-        if (e.NavigationMode != Windows.UI.Xaml.Navigation.NavigationMode.Back)
+        if (e.NavigationMode != NavigationMode.Back)
             return;
 
         WindowPrivate.Hide();

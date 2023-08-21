@@ -1,8 +1,8 @@
 ﻿<Page
-    x:Class="ShortDev.ShellEnhance.UI.Flyouts.BluetoothFlyoutPage"
+    x:Class="ShortDev.Windows.ShellEnhance.UI.Flyouts.BluetoothFlyoutPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:ShortDev.ShellEnhance.UI"
+    xmlns:local="using:ShortDev.Windows.ShellEnhance.UI"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -39,7 +39,7 @@
                 <controls:ProgressBar IsIndeterminate="True" VerticalAlignment="Top" />
                 <ListView x:Name="DevicesListView" SelectionMode="Single" SelectionChanged="DevicesListView_SelectionChanged">
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="namespace:BluetoothDeviceInfo" xmlns:namespace="using:ShortDev.ShellEnhance.UI.Flyouts">
+                        <DataTemplate x:DataType="namespace:BluetoothDeviceInfo" xmlns:namespace="using:ShortDev.Windows.ShellEnhance.UI.Flyouts">
                             <StackPanel Padding="5">
                                 <Grid>
                                     <Grid.ColumnDefinitions>

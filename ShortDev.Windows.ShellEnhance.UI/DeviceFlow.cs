@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Enumeration;
 
-namespace ShortDev.ShellEnhance.UI;
+namespace ShortDev.Windows.ShellEnhance.UI;
 
 internal static class DeviceFlow
 {
