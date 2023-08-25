@@ -46,7 +46,8 @@
 
             <Grid BorderBrush="{ThemeResource DividerStrokeColorDefault}" BorderThickness="0,1,0,0" />
 
-            <CalendarView                    
+            <CalendarView
+                Language="{x:Bind Language}"
                 Background="Transparent"
                 BorderBrush="Transparent"
                 HorizontalAlignment="Stretch"
@@ -54,6 +55,7 @@
                 IsGroupLabelVisible="True"
                 IsOutOfScopeEnabled="True"
                 CalendarIdentifier="GregorianCalendar"
+                FirstDayOfWeek="Monday"
                 SelectedDatesChanged="CalendarView_SelectedDatesChanged" />
 
             <Grid BorderBrush="{ThemeResource DividerStrokeColorDefault}" BorderThickness="0,1,0,0" />
