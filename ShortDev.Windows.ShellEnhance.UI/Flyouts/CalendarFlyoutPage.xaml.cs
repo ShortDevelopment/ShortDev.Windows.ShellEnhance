@@ -74,9 +74,9 @@ public sealed partial class CalendarFlyoutPage : Page, IShellEnhanceFlyout, INot
     private async void CalendarView_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
     {
         if (sender.SelectedDates.Count == 0)
-            SelectedDate = DateTimeOffset.Now.Date;
+            SelectedDate = DateTimeOffset.Now;
         else
-            SelectedDate = sender.SelectedDates[0].Date;
+            SelectedDate = sender.SelectedDates[0];
 
         await OnSelectedDateChangedAsync();
     }
@@ -89,7 +89,7 @@ public sealed partial class CalendarFlyoutPage : Page, IShellEnhanceFlyout, INot
         PropertyChanged?.Invoke(this, new(nameof(SelectedDateFormatted)));
 
         Appointments.Clear();
-        foreach (var item in await _appointmentStore.FindAppointmentsAsync(SelectedDate, TimeSpan.FromDays(1)))
+        foreach (var item in await _appointmentStore.FindAppointmentsAsync(SelectedDate.Date, TimeSpan.FromDays(1)))
         {
             var calendar = await _appointmentStore.GetAppointmentCalendarAsync(item.CalendarId);
             Appointments.Add(new()
