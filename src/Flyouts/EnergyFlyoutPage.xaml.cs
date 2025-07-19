@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace ShortDev.Windows.ShellEnhance.UI.Flyouts;
@@ -15,7 +12,7 @@ public sealed partial class EnergyFlyoutPage : Page, IShellEnhanceFlyout
         Loaded += EnergyFlyoutPage_Loaded;
     }
 
-    IReadOnlyList<Guid> _powerSchemas;
+    IReadOnlyList<Guid>? _powerSchemas;
     private void EnergyFlyoutPage_Loaded(object sender, RoutedEventArgs e)
     {
         _powerSchemas = PowerApi.AllPowerSchemas;
@@ -37,6 +34,9 @@ public sealed partial class EnergyFlyoutPage : Page, IShellEnhanceFlyout
 
     private void SelectPowerPlanListView_ItemClick(object sender, ItemClickEventArgs e)
     {
+        if (_powerSchemas is null)
+            return;
+
         PowerApi.ActiveSchema = _powerSchemas[SelectPowerPlanListView.SelectedIndex];
     }
 }

@@ -1,0 +1,12 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="DeviceFlow/DeviceFlow.vcxproj" Id="6b50809c-82f6-4872-a2a8-e1dd8d75b0e6" />
+  <Project Path="src/ShortDev.Windows.ShellEnhance.csproj" Id="94f9aeaf-2dd0-4876-abe0-0789c36ca9e9">
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+    <Deploy />
+  </Project>
+</Solution>

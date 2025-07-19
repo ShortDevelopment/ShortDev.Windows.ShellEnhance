@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ShortDev.Windows.ShellEnhance": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": false
+    }
+  }
+}

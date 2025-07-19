@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Power;

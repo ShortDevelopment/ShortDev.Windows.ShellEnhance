@@ -1,27 +1,25 @@
-﻿using ShortDev.Windows.ShellEnhance.UI.Flyouts;
+﻿using Internal.Windows.UI.Xaml;
 using ShortDev.Uwp.FullTrust.Xaml;
-using System;
-using System.Threading.Tasks;
+using ShortDev.Windows.ShellEnhance.UI.Flyouts;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.Win32.Foundation;
-using WinUI.Interop.CoreWindow;
 using Windows.UI.Xaml.Navigation;
+using Windows.Win32.Foundation;
 
 namespace ShortDev.Windows.ShellEnhance.UI;
 
 public static class Program
 {
-    public static IWindowPrivate WindowPrivate { get; private set; }
-    public static Window Window { get; private set; }
-    public static Frame Frame { get; private set; }
+    public static IWindowPrivate? WindowPrivate { get; private set; }
+    public static Window? Window { get; private set; }
+    public static Frame? Frame { get; private set; }
 
     [STAThread]
     public static void Main(string[] args)
     {
-        new App();
-        Window = XamlWindowActivator.CreateNewWindow(new XamlWindowConfig("ShellEnhance")
+        _ = new App();
+        Window = XamlWindowFactory.CreateNewWindow(new XamlWindowConfig("ShellEnhance")
         {
             HasWin32Frame = false,
             IsVisible = false,
@@ -32,7 +30,7 @@ public static class Program
         var subclass = Window.GetSubclass();
         subclass.Win32Window.ShowInTaskBar = false;
 
-        var hwnd = Window.GetHwnd();
+        var hwnd = Window.Hwnd;
         PostMessage((HWND)hwnd, 0x270, 0, 1);
 
         WindowPrivate = (IWindowPrivate)(object)Window;
@@ -52,6 +50,9 @@ public static class Program
 
     static void RegisterFlyout<T>() where T : Page, IShellEnhanceFlyout, new()
     {
+        if (Window is null)
+            return;
+
         T flyoutContent = new();
         NotificationIcon icon = new(flyoutContent.IconId, flyoutContent.IconAssetId, Window, typeof(T));
         icon.Show();
@@ -62,8 +63,9 @@ public static class Program
         if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
             return;
 
-        if (Frame.CanGoBack)
-            Frame.GoBack();
+        var frame = Frame;
+        if (frame?.CanGoBack == true)
+            frame.GoBack();
     }
 
     private static void Frame_Navigated(object sender, NavigationEventArgs e)
@@ -71,7 +73,7 @@ public static class Program
         if (e.NavigationMode != NavigationMode.Back)
             return;
 
-        WindowPrivate.Hide();
+        WindowPrivate?.Hide();
     }
 
     public static async void YieldExecute(Action action)

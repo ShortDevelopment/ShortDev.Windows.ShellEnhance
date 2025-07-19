@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Enumeration;
 
@@ -18,10 +16,9 @@ internal static class DeviceFlow
     {
         var aepInfo = await DeviceInformation.CreateFromIdAsync(
             aepId,
-            new[]
-            {
+            [
                 "System.Devices.Aep.ContainerId"
-            },
+            ],
             DeviceInformationKind.AssociationEndpoint
         );
         var devices = await GetDevicesFromAepAsync(aepInfo);
@@ -51,12 +48,11 @@ internal static class DeviceFlow
 
         var deviceContainer = await DeviceInformation.CreateFromIdAsync(
             containerId.ToString(),
-            new[]
-            {
+            [
                 "System.Devices.CategoryIds",
                 "System.Devices.HardwareIds",
                 "System.Devices.Paired"
-            },
+            ],
             DeviceInformationKind.DeviceContainer
         );
         return await DeviceInformation.FindAllAsync(

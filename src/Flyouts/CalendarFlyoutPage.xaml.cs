@@ -1,11 +1,5 @@
-﻿#nullable enable
-
-using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Appointments;
 using Windows.System;
 using Windows.UI.Core;
@@ -53,7 +47,7 @@ public sealed partial class CalendarFlyoutPage : Page, IShellEnhanceFlyout, INot
     }
 
     int _lastSecond = -1;
-    void OnTimerTick(object sender, object e)
+    void OnTimerTick(object? sender, object e)
     {
         var currentSecond = DateTime.Now.Second;
         if (Interlocked.Exchange(ref _lastSecond, currentSecond) == currentSecond)

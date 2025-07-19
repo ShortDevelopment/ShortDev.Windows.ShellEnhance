@@ -1,21 +1,20 @@
-﻿using ShortDev.Uwp.FullTrust.Xaml;
-using ShortDev.Win32;
-using System;
+﻿using Internal.Windows.UI.Xaml;
+using ShortDev.Uwp.FullTrust.Xaml;
+using ShortDev.Win32.Windowing;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.InteropServices;
-using Windows.UI.Xaml;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
-using WinUI.Interop.CoreWindow;
+using WinRT;
+using Window = Windows.UI.Xaml.Window;
 
 namespace ShortDev.Windows.ShellEnhance.UI;
 
 
 // https://github.com/microsoft/Windows-classic-samples/blob/main/Samples/Win7Samples/winui/shell/appshellintegration/NotificationIcon/NotificationIcon.cpp
 
-internal class NotificationIcon : Win32WindowSubclass.IMessageFilter, IDisposable
+internal class NotificationIcon : WindowSubclass.IMessageFilter, IDisposable
 {
     public ushort Id { get; }
 
@@ -40,7 +39,7 @@ internal class NotificationIcon : Win32WindowSubclass.IMessageFilter, IDisposabl
 
         NOTIFYICONDATAW data = new()
         {
-            hWnd = (HWND)Window.GetHwnd(),
+            hWnd = (HWND)Window.Hwnd,
             uID = Id
         };
         data.cbSize = (uint)Marshal.SizeOf(data);
@@ -54,7 +53,7 @@ internal class NotificationIcon : Win32WindowSubclass.IMessageFilter, IDisposabl
     {
         NOTIFYICONDATAW data = new()
         {
-            hWnd = (HWND)Window.GetHwnd(),
+            hWnd = (HWND)Window.Hwnd,
             uFlags = NOTIFY_ICON_DATA_FLAGS.NIF_ICON | NOTIFY_ICON_DATA_FLAGS.NIF_MESSAGE,
             hIcon = LoadIcon(),
             uCallbackMessage = App_NotifyIcon,
@@ -85,23 +84,23 @@ internal class NotificationIcon : Win32WindowSubclass.IMessageFilter, IDisposabl
         }
     }
 
-    unsafe bool Win32WindowSubclass.IMessageFilter.PreFilterMessage(IntPtr hwnd, int msg, nuint wParam, nint lParam, nuint id, out IntPtr result)
+    unsafe bool WindowSubclass.IMessageFilter.PreFilterMessage(IntPtr hwnd, int msg, nuint wParam, nint lParam, nuint id, out IntPtr result)
     {
         const int WM_USER = 1024;
         const int NIN_SELECT = WM_USER;
         if (msg == (int)App_NotifyIcon && LOWORD(lParam) == NIN_SELECT && HIWORD(lParam) == Id)
         {
-            (Window as object as IWindowPrivate).Show();
-            Program.YieldExecute(() => Program.Frame.Navigate(Content));
+            this.Window.As<IWindowPrivate>().Show();
+            Program.YieldExecute(() => Program.Frame?.Navigate(Content));
 
-            HWND windowHwnd = (HWND)Window.GetHwnd();
+            HWND windowHwnd = (HWND)Window.Hwnd;
 
             NOTIFYICONIDENTIFIER iconId = new()
             {
                 hWnd = windowHwnd,
-                uID = Id
+                uID = Id,
+                cbSize = (uint)sizeof(NOTIFYICONIDENTIFIER)
             };
-            iconId.cbSize = (uint)Marshal.SizeOf(iconId);
             Marshal.ThrowExceptionForHR(Shell_NotifyIconGetRect(iconId, out var rcIcon));
 
             System.Drawing.Point ptAnchor = new()
@@ -135,9 +134,9 @@ internal class NotificationIcon : Win32WindowSubclass.IMessageFilter, IDisposabl
         return false;
     }
 
-    nint LOWORD(nint input)
+    static nint LOWORD(nint input)
         => input & 0xFFFF;
 
-    nint HIWORD(nint input)
+    static nint HIWORD(nint input)
         => input >> 16;
 }

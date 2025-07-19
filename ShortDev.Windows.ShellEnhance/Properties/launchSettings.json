@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "ShellEnhance": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}

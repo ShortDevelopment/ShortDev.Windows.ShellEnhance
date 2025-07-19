@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.InteropServices;
+﻿using System.Collections.ObjectModel;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Enumeration;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml;
 
 namespace ShortDev.Windows.ShellEnhance.UI.Flyouts;
 
@@ -36,11 +32,7 @@ public sealed partial class BluetoothFlyoutPage : Page, IShellEnhanceFlyout
     {
         _ = Dispatcher.RunIdleAsync(async (x) =>
         {
-            var result = new BluetoothDeviceInfo()
-            {
-                Name = device.Name,
-                DeviceInformation = device
-            };
+            var result = new BluetoothDeviceInfo(device, device.Name);
 
             var glyph = await device.GetGlyphThumbnailAsync();
             var imgSource = new BitmapImage();
@@ -91,14 +83,14 @@ public sealed partial class BluetoothFlyoutPage : Page, IShellEnhanceFlyout
     }
 }
 
-public class BluetoothDeviceInfo
+public class BluetoothDeviceInfo(DeviceInformation deviceInfo, string name)
 {
-    public string Name { get; set; }
-    public BitmapImage Thumbnail { get; set; }
+    public string Name { get; set; } = name;
+    public BitmapImage? Thumbnail { get; set; }
 
     public bool CanPair { get; set; } = false;
     public bool IsPaired { get; set; } = false;
     public bool CanConnect { get; set; } = true;
 
-    public DeviceInformation DeviceInformation { get; set; }
+    public DeviceInformation DeviceInformation { get; set; } = deviceInfo;
 }
